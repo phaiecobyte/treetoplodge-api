@@ -1,4 +1,4 @@
-package com.treetoplodge.treetoplodge_api.payload.request;
+package com.treetoplodge.treetoplodge_api.security.payload.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

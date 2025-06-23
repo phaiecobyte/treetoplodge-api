@@ -1,4 +1,4 @@
-package com.treetoplodge.treetoplodge_api.payload.response;
+package com.treetoplodge.treetoplodge_api.security.payload.response;
 
 public class TokenRefreshResponse {
     private String accessToken;
