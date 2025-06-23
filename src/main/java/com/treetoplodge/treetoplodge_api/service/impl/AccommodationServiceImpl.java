@@ -1,6 +1,6 @@
-package com.treetoplodge.treetoplodge_api.Service.impl;
+package com.treetoplodge.treetoplodge_api.service.impl;
 
-import com.treetoplodge.treetoplodge_api.Service.AccommodationService;
+import com.treetoplodge.treetoplodge_api.service.AccommodationService;
 import com.treetoplodge.treetoplodge_api.exception.AppException;
 import com.treetoplodge.treetoplodge_api.model.Accommodation;
 import com.treetoplodge.treetoplodge_api.repository.AccommodationRepository;
@@ -14,9 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static com.treetoplodge.treetoplodge_api.util.Generator.generateUniqueAccommodationId;

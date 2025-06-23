@@ -1,15 +1,16 @@
-package com.phaiecobyte.spring_security.service;
+package com.treetoplodge.treetoplodge_api.security.service;
 
-import com.phaiecobyte.spring_security.dto.JwtAuthenticationRes;
-import com.phaiecobyte.spring_security.dto.LoginReq;
-import com.phaiecobyte.spring_security.dto.RefreshTokenReq;
-import com.phaiecobyte.spring_security.dto.RegisterReq;
-import com.phaiecobyte.spring_security.entity.User;
+
+import com.treetoplodge.treetoplodge_api.model.User;
+import com.treetoplodge.treetoplodge_api.security.payload.request.LoginRequest;
+import com.treetoplodge.treetoplodge_api.security.payload.request.RefreshTokenRequest;
+import com.treetoplodge.treetoplodge_api.security.payload.request.RegisterRequest;
+import com.treetoplodge.treetoplodge_api.security.payload.response.AuthResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface AuthenticationService {
-    JwtAuthenticationRes login(LoginReq req);
-    User register(RegisterReq req);
-    JwtAuthenticationRes refreshToken(RefreshTokenReq req);
+public interface AuthService {
+    AuthResponse login(LoginRequest req);
+    User register(RegisterRequest req);
+    AuthResponse refreshToken(RefreshTokenRequest req);
 }

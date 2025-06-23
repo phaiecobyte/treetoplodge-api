@@ -20,7 +20,7 @@ public class Role {
 
     public enum ERole{
         ROLE_CUSTOMER,
-        ROLE_SHOP,
-        ROLE_ADMIN
+        ROLE_ADMIN,
+        ROLE_RECEPTIONIST
     }
 }

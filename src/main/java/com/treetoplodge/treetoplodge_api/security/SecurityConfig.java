@@ -1,7 +1,7 @@
-package com.phaiecobyte.spring_security.config;
+package com.treetoplodge.treetoplodge_api.security;
 
-import com.phaiecobyte.spring_security.entity.Role;
-import com.phaiecobyte.spring_security.service.UserService;
+import com.treetoplodge.treetoplodge_api.model.Role;
+import com.treetoplodge.treetoplodge_api.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,8 +34,6 @@ public class SecurityConfig {
             http.csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(request ->
                             request.requestMatchers("/api/v1/auth/**").permitAll()
-                                    .requestMatchers("/api/v1/admin").hasAnyAuthority(Role.ROLE_ADMIN.name())
-                                    .requestMatchers("/api/v1/user").hasAnyAuthority(Role.ROLE_USER.name())
                                     .anyRequest().authenticated())
 
                     .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -54,8 +52,7 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userService.userdetailsService());
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userService.userdetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }

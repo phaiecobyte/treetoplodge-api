@@ -1,6 +1,7 @@
 package com.treetoplodge.treetoplodge_api.controller;
 
-import com.treetoplodge.treetoplodge_api.Service.impl.FileUploadServiceImpl;
+import com.treetoplodge.treetoplodge_api.service.impl.FileUploadServiceImpl;
+import com.treetoplodge.treetoplodge_api.exception.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileUploadController {
     private final FileUploadServiceImpl service;
+
+    @GetMapping("/images")
+    public ResponseEntity<Object> getImages() {
+        return ApiResponse.success(service.listFile());
+    }
 
     @PostMapping(value = "single", consumes = "multipart/form-data")
     @PreAuthorize("hasAnyRole('SHOP', 'ADMIN')")
@@ -32,7 +38,7 @@ public class FileUploadController {
         return ResponseEntity.ok(fileUrls);
     }
 
-    @DeleteMapping
+    @DeleteMapping("single")
     @PreAuthorize("hasAnyRole('SHOP','ADMIN')")
     public ResponseEntity<Void> deleteFile(@RequestParam("fileUrl") String fileUrl) throws IOException {
         service.deleteFile(fileUrl);

@@ -25,6 +25,7 @@ public class ApiResponse {
         return ResponseEntity.ok(response);
     }
 
+
     public static ResponseEntity<Object> success() {
         Map<String, Object> response = new HashMap<>();
         response.put("status", "success");

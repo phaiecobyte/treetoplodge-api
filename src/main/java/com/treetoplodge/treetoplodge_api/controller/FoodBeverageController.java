@@ -1,6 +1,6 @@
 package com.treetoplodge.treetoplodge_api.controller;
 
-import com.treetoplodge.treetoplodge_api.Service.impl.FoodBeverageServiceImpl;
+import com.treetoplodge.treetoplodge_api.service.impl.FoodBeverageServiceImpl;
 import com.treetoplodge.treetoplodge_api.exception.ApiResponse;
 import com.treetoplodge.treetoplodge_api.exception.AppException;
 import com.treetoplodge.treetoplodge_api.model.FoodBeverage;
@@ -8,12 +8,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ResourceBundle;
 
 
 @Slf4j

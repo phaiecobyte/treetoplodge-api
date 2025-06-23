@@ -1,8 +1,7 @@
-package com.treetoplodge.treetoplodge_api.Service;
+package com.treetoplodge.treetoplodge_api.service;
 
 import com.treetoplodge.treetoplodge_api.exception.AppException;
 import com.treetoplodge.treetoplodge_api.model.FoodBeverage;
-import org.hibernate.metamodel.mapping.ForeignKeyDescriptor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

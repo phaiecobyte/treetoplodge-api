@@ -1,7 +1,8 @@
-package com.phaiecobyte.spring_security.service.impl;
+package com.treetoplodge.treetoplodge_api.security.service.impl;
 
-import com.phaiecobyte.spring_security.repository.UserRepository;
-import com.phaiecobyte.spring_security.service.UserService;
+
+import com.treetoplodge.treetoplodge_api.repository.UserRepository;
+import com.treetoplodge.treetoplodge_api.security.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,8 +18,8 @@ public class UserServiceImpl implements UserService {
     public UserDetailsService userdetailsService() {
         return new UserDetailsService() {
             @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return userRepository.findByEmail(username)
+            public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
+                return userRepository.findByPhoneNumber(phone)
                         .orElseThrow(()->new UsernameNotFoundException("User not found"));
             }
         };

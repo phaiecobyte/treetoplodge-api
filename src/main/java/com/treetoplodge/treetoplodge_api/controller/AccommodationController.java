@@ -1,6 +1,6 @@
 package com.treetoplodge.treetoplodge_api.controller;
 
-import com.treetoplodge.treetoplodge_api.Service.impl.AccommodationServiceImpl;
+import com.treetoplodge.treetoplodge_api.service.impl.AccommodationServiceImpl;
 import com.treetoplodge.treetoplodge_api.exception.ApiResponse;
 import com.treetoplodge.treetoplodge_api.exception.AppException;
 import com.treetoplodge.treetoplodge_api.model.Accommodation;
@@ -60,7 +60,7 @@ public class AccommodationController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('SHOP') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('SHOP','ADMIN')")
     public ResponseEntity<Object> create(@RequestBody @Valid Accommodation accommodation) {
         log.info(LOG_REQUEST_START,"create");
         try {

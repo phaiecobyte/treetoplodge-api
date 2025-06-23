@@ -1,4 +1,4 @@
-package com.cambofreelance.authenticationservice.constants;
+package com.treetoplodge.treetoplodge_api.constants;
 
 public final class Constants {
     public static final String BEARER = "Bearer";
@@ -64,5 +64,5 @@ public final class Constants {
     public static final String ROLE_USER = "User";
     public static final String PASSWORD = "password";
     public static final String REFRESH_TOKEN = "refresh_token";
-  public static final String USER_TYPE = "User-Type";
+    public static final String USER_TYPE = "User-Type";
 }

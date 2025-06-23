@@ -2,48 +2,45 @@ package com.treetoplodge.treetoplodge_api.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@Entity
-@Table(name = "users",
-    uniqueConstraints = {
-            @UniqueConstraint(columnNames = "username"),
-            @UniqueConstraint(columnNames = "email")
-    })
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Size(max = 50)
+@Entity(name = "users")
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity implements UserDetails {
+    
+    @Column(length = 50, unique = true)
     private String userId;
 
-    @NotBlank(message = "username is required")
-    @Size(max = 50)
-    private String username;
+    @Size(max = 55)
+    private String surname;
 
-    @NotBlank(message = "email is required")
-    @Size(max = 100)
+    @Size(max = 55)
+    private String forename;
+
     @Email
+    @Size(max = 100)
+    @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "password is required")
+    @Column(unique = true)
+    @Size(max = 55)
+    private String phoneNumber;
+
     @Size(max = 100)
     private String password;
 
-    private String fullName;
-    private String phoneNumber;
-    private boolean active=true;
+    @Size(max = 25)
+    private String status;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
@@ -51,18 +48,31 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    private LocalDateTime createdAt;
-    private String createdBy;
-    private LocalDateTime updatedAt;
-    private String updatedBy;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserProfile userProfile;
 
-    public User(){}
-    public User(String username, String email, String password, String fullName, String phoneNumber) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.createdAt = LocalDateTime.now();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+                .toList();
     }
+
+    @Override
+    public String getUsername() {
+        return phoneNumber;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @Override
+    public boolean isEnabled() { return true; }
 }

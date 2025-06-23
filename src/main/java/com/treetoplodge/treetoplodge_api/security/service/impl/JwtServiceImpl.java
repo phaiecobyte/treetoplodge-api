@@ -1,6 +1,6 @@
-package com.phaiecobyte.spring_security.service.impl;
+package com.treetoplodge.treetoplodge_api.security.service.impl;
 
-import com.phaiecobyte.spring_security.service.JwtService;
+import com.treetoplodge.treetoplodge_api.security.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,12 +26,10 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
-
-
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails){
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && isTokenExpired(token));
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
     @Override

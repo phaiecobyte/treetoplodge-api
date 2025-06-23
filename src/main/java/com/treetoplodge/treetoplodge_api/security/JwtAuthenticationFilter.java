@@ -1,7 +1,7 @@
-package com.phaiecobyte.spring_security.config;
+package com.treetoplodge.treetoplodge_api.security;
 
-import com.phaiecobyte.spring_security.service.JwtService;
-import com.phaiecobyte.spring_security.service.UserService;
+import com.treetoplodge.treetoplodge_api.security.service.JwtService;
+import com.treetoplodge.treetoplodge_api.security.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,18 +29,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String email;
+        final String phoneNumber;
 
-        if(StringUtils.isEmpty(authHeader) || StringUtils.startsWith(authHeader, "Bearer")){
+        if(StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, "Bearer ")){
             filterChain.doFilter(request,response);
             return;
         }
 
         jwt = authHeader.substring(7);
-        email = jwtService.extractUsername(jwt);
+        phoneNumber = jwtService.extractUsername(jwt);
 
-        if(StringUtils.isNotEmpty(email) && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails userDetails = userService.userdetailsService().loadUserByUsername(email);
+        if(StringUtils.isNotEmpty(phoneNumber) && SecurityContextHolder.getContext().getAuthentication() == null){
+            UserDetails userDetails = userService.userdetailsService().loadUserByUsername(phoneNumber);
 
             if(jwtService.isTokenValid(jwt,userDetails)){
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
@@ -56,7 +56,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 securityContext.setAuthentication(token);
                 SecurityContextHolder.setContext(securityContext);
             }
-            filterChain.doFilter(request,response);
         }
+        
+        // Always continue the filter chain regardless of authentication result
+        filterChain.doFilter(request,response);
     }
 }

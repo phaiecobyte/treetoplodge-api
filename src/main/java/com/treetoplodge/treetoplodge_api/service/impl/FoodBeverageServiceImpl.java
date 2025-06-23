@@ -1,6 +1,6 @@
-package com.treetoplodge.treetoplodge_api.Service.impl;
+package com.treetoplodge.treetoplodge_api.service.impl;
 
-import com.treetoplodge.treetoplodge_api.Service.FoodBeverageService;
+import com.treetoplodge.treetoplodge_api.service.FoodBeverageService;
 import com.treetoplodge.treetoplodge_api.exception.AppException;
 import com.treetoplodge.treetoplodge_api.model.FoodBeverage;
 import com.treetoplodge.treetoplodge_api.repository.FoodBeverageRepository;

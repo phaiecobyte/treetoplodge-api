@@ -145,7 +145,7 @@ public class AppException extends RuntimeException {
     }
 
     /**
-     * Creates a 503 Service Unavailable exception
+     * Creates a 503 service Unavailable exception
      * @param message The error message
      * @return AppException with 503 status
      */

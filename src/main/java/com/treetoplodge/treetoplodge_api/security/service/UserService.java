@@ -1,4 +1,4 @@
-package com.phaiecobyte.spring_security.service;
+package com.treetoplodge.treetoplodge_api.security.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
