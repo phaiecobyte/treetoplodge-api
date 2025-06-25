@@ -103,7 +103,7 @@ public class ApiResponse {
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("message", "Operation completed successfully");
-        response.put("data", page.getContent());
+        response.put("content", page.getContent());
         response.put("totalPages", page.getTotalPages());
         response.put("totalElements", page.getTotalElements());
         response.put("number", page.getNumber());

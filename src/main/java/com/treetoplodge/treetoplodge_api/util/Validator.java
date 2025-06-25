@@ -1,15 +1,12 @@
 package com.treetoplodge.treetoplodge_api.util;
 
 import com.treetoplodge.treetoplodge_api.exception.AppException;
-import com.treetoplodge.treetoplodge_api.model.Accommodation;
 import com.treetoplodge.treetoplodge_api.repository.AccommodationRepository;
 import com.treetoplodge.treetoplodge_api.repository.FoodBeverageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import static com.treetoplodge.treetoplodge_api.util.Generator.generateUniqueAccommodationId;
 
 @Slf4j
 @RequiredArgsConstructor

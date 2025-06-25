@@ -40,12 +40,32 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest req){
-        return ResponseEntity.ok(authService.login(req));
+    public ResponseEntity<Object> login(@Valid @RequestBody LoginRequest req){
+        try {
+            AuthResponse response = authService.login(req);
+            log.info("User logged in successfully: {}", req.getPhoneNumber());
+            return ApiResponse.success(response);
+        } catch (AppException e) {
+            log.error("Application error during login: {}", e.getMessage());
+            return ApiResponse.error(e);
+        } catch (Exception e) {
+            log.error("Unexpected error during login: {}", e.getMessage());
+            return ApiResponse.error(e);
+        }
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<AuthResponse> refreshToken(@RequestBody RefreshTokenRequest req){
-        return ResponseEntity.ok(authService.refreshToken(req));
+    public ResponseEntity<Object> refreshToken(@Valid @RequestBody RefreshTokenRequest req){
+        try {
+            AuthResponse response = authService.refreshToken(req);
+            log.info("Token refreshed successfully");
+            return ApiResponse.success(response);
+        } catch (AppException e) {
+            log.error("Application error during token refresh: {}", e.getMessage());
+            return ApiResponse.error(e);
+        } catch (Exception e) {
+            log.error("Unexpected error during token refresh: {}", e.getMessage());
+            return ApiResponse.error(e);
+        }
     }
 }

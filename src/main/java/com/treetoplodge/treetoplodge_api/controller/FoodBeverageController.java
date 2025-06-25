@@ -67,7 +67,7 @@ public class FoodBeverageController {
         try {
             FoodBeverage data = service.create(foodBeverage);
             log.info(LOG_REQUEST_SUCCESS,"create");
-            return ApiResponse.success(foodBeverage);
+            return ApiResponse.success(data);
         } catch (AppException e) {
             log.error(LOG_REQUEST_APP_ERROR, e.getMessage(), "create");
             return ApiResponse.error(e);

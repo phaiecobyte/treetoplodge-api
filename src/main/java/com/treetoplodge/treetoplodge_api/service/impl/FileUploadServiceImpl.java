@@ -24,6 +24,9 @@ public class FileUploadServiceImpl implements FileUploadService {
     @Value("${file.upload-dir:uploads}")
     private String baseUploadDir;
 
+    @Value("${app.public-url}")
+    private String publicUrl;
+
     @Override
     public List<String> listFile() {
         List<String> images = new ArrayList<>();
@@ -54,7 +57,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         Path targetLocation = uploadPath.resolve(fileName);
         Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-        return "/uploads/" + directory + "/" + fileName;
+        return publicUrl+"/uploads/" + directory + "/" + fileName;
     }
 
     @Override

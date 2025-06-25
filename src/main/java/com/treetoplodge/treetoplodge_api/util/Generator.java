@@ -2,7 +2,6 @@ package com.treetoplodge.treetoplodge_api.util;
 
 import jakarta.validation.constraints.Size;
 
-import java.util.UUID;
 
 public class Generator {
     private static int counter = 1;

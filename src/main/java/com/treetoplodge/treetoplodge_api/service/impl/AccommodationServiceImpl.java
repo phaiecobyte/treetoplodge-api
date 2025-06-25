@@ -49,7 +49,7 @@ public class AccommodationServiceImpl implements AccommodationService {
     @Override
     public Accommodation create(Accommodation accommodation) throws AppException {
         validator.validateAccommodationId(accommodation.getAccommodationId());
-        if(accommodation.getAccommodationId().isEmpty()){
+        if(accommodation.getAccommodationId().isEmpty() || accommodation.getAccommodationId() == ""){
             accommodation.setAccommodationId(generateUniqueAccommodationId());
         }
         accommodation.setCreatedAt(LocalDateTime.now());

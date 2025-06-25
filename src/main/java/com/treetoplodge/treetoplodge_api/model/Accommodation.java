@@ -49,9 +49,14 @@ public class Accommodation {
     
     @PositiveOrZero
     private int beds;
+    private Integer bedrooms;
     
     @PositiveOrZero
     private int bathrooms;
+
+    private float rating;
+    private int reviewCount;
+    private boolean available;
     
     @ElementCollection
     @CollectionTable(name = "accommodation_features",

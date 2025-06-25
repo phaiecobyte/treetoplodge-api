@@ -11,6 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Slf4j
@@ -24,6 +27,14 @@ public class AccommodationController {
     private static final String LOG_REQUEST_UNEXPECTED_ERROR = "Unexpected error during {} operation:{}";
     private static final String LOG_REQUEST_COMPLETED = "Completed {} operation";
     private final AccommodationServiceImpl service;
+
+   @PostMapping("/test")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
+   public String postMethodName(@RequestBody String entity) {   
+       return "Hello spring boot";
+   }
+   
+    
 
     @GetMapping
     public ResponseEntity<Object> getAll(Pageable pageable) {
@@ -60,7 +71,7 @@ public class AccommodationController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('SHOP','ADMIN')")
+    // @PreAuthorize("hasAnyRole('SHOP','ADMIN')")
     public ResponseEntity<Object> create(@RequestBody @Valid Accommodation accommodation) {
         log.info(LOG_REQUEST_START,"create");
         try {
