@@ -1,5 +1,6 @@
 package com.treetoplodge.treetoplodge_api.service.impl;
 
+import com.treetoplodge.treetoplodge_api.model.DeleteResult;
 import com.treetoplodge.treetoplodge_api.service.FileUploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,7 +41,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             if (file.isDirectory()) {
                 traverseDirectory(file, images);
             } else if (file.getName().endsWith(".jpg") || file.getName().endsWith(".png") || file.getName().endsWith(".gif")) {
-                images.add("http://localhost:8080/uploads/" + file.getParentFile().getName() + "/" + file.getName());
+                images.add(publicUrl + "/uploads/" + file.getParentFile().getName() + "/" + file.getName());
             }
         }
     }
@@ -72,14 +73,62 @@ public class FileUploadServiceImpl implements FileUploadService {
 
     @Override
     public void deleteFile(String fileUrl) throws IOException {
-        Path filePath = Paths.get(baseUploadDir, fileUrl.substring("/uploads/".length())).toAbsolutePath().normalize();
-        Files.deleteIfExists(filePath);
+        try {
+            // Handle different URL formats
+            String relativePath;
+            if (fileUrl.contains("://")) {
+                // Handle full URLs (with http/https)
+                int uploadsIndex = fileUrl.indexOf("/uploads/");
+                if (uploadsIndex == -1) {
+                    log.warn("Invalid file URL format: {}", fileUrl);
+                    throw new IOException("Invalid file URL format");
+                }
+                relativePath = fileUrl.substring(uploadsIndex + "/uploads/".length());
+            } else if (fileUrl.startsWith("/uploads/")) {
+                relativePath = fileUrl.substring("/uploads/".length());
+            } else {
+                relativePath = fileUrl;
+            }
+            
+            Path filePath = Paths.get(baseUploadDir, relativePath).toAbsolutePath().normalize();
+            log.info("Attempting to delete file: {}", filePath);
+            
+            if (Files.deleteIfExists(filePath)) {
+                log.info("File successfully deleted: {}", filePath);
+            } else {
+                log.warn("File not found: {}", filePath);
+            }
+        } catch (Exception e) {
+            log.error("Error deleting file: {}", fileUrl, e);
+            throw e;
+        }
     }
 
     @Override
-    public void deleteFiles(List<String> fileUrls) throws IOException {
-        for (String fileUrl : fileUrls) {
-            deleteFile(fileUrl);
+    public DeleteResult deleteFiles(List<String> fileUrls) throws IOException {
+        if (fileUrls == null || fileUrls.isEmpty()) {
+            log.warn("No files provided for deletion");
+            return new DeleteResult(List.of(), List.of());
         }
+        
+        log.info("Starting batch deletion of {} files", fileUrls.size());
+        List<String> successfulDeletes = new ArrayList<>();
+        List<String> failedDeletes = new ArrayList<>();
+        
+        for (String fileUrl : fileUrls) {
+            try {
+                deleteFile(fileUrl);
+                successfulDeletes.add(fileUrl);
+            } catch (Exception e) {
+                log.error("Failed to delete file: {}", fileUrl, e);
+                failedDeletes.add(fileUrl);
+            }
+        }
+        
+        log.info("Batch deletion complete. Success: {}, Failed: {}", 
+                successfulDeletes.size(), failedDeletes.size());
+        
+        // Return results instead of throwing exception
+        return new DeleteResult(successfulDeletes, failedDeletes);
     }
 }

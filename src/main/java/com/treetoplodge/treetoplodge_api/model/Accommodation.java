@@ -14,8 +14,9 @@ public class Accommodation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotNull @Column(unique = true)
+    @Column(unique = true) @NotNull
     private String accommodationId;
+
 
     @NotBlank(message = "name cannot is required")
     @Size(max = 255)
@@ -69,4 +70,14 @@ public class Accommodation {
     private String createdBy;
     private LocalDateTime updatedAt;
     private String updatedBy;
+
+    @PrePersist
+    private void generateAccommodationId() {
+        if (accommodationId == null || accommodationId.equals("")) {
+            // Generate a unique accommodation ID with format ACC-YYYYMMDD-XXXX
+            String timestamp = java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.BASIC_ISO_DATE);
+            String randomPart = String.format("%04d", new java.util.Random().nextInt(10000));
+            this.accommodationId = "ACC-" + timestamp + "-" + randomPart;
+        }
+    }
 }

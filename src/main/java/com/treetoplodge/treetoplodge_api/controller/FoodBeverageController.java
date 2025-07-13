@@ -31,7 +31,7 @@ public class FoodBeverageController {
         log.info(LOG_REQUEST_START,"getAll");
         try {
             log.info(LOG_REQUEST_SUCCESS,"getAll");
-            return ApiResponse.success(service.getAll(pageable));
+            return ApiResponse.paged(service.getAll(pageable));
         }catch (AppException e){
             log.error(LOG_REQUEST_APP_ERROR, e.getMessage(),"getAll");
             return ApiResponse.error(e);

@@ -25,6 +25,15 @@ public class ApiResponse {
         return ResponseEntity.ok(response);
     }
 
+     public static ResponseEntity<Object> success(String data) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "Operation completed successfully");
+        response.put("data", data);
+        response.put("timestamp", LocalDateTime.now());
+
+        return ResponseEntity.ok(response);
+    }
 
     public static ResponseEntity<Object> success() {
         Map<String, Object> response = new HashMap<>();

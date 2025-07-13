@@ -43,7 +43,9 @@ public class SecurityConfig {
                     .authorizeHttpRequests(request ->
                             request.requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
                                     .requestMatchers(HttpMethod.GET,"/api/v1/accommodations/**").permitAll()
+                                    .requestMatchers(HttpMethod.GET,"/api/v1/food-beverages/**").permitAll()
                                     .requestMatchers(HttpMethod.GET,"/uploads/**").permitAll()
+                                    .requestMatchers(HttpMethod.GET,"/api/v1/upload/**").permitAll()
                                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                     .requestMatchers("/api/v1/receptionist/**").hasAnyRole("ADMIN","RECEPTIONIST")
                                     .anyRequest().authenticated())
@@ -84,7 +86,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));  // Or specify your frontend origins
+        configuration.setAllowedOrigins(Arrays.asList(
+            "http://localhost:4200",
+            "https://treetoplodge.netlify.app"  // Add your Netlify domain
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setExposedHeaders(Arrays.asList("Authorization"));

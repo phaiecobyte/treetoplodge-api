@@ -4,7 +4,6 @@ import com.treetoplodge.treetoplodge_api.service.AccommodationService;
 import com.treetoplodge.treetoplodge_api.exception.AppException;
 import com.treetoplodge.treetoplodge_api.model.Accommodation;
 import com.treetoplodge.treetoplodge_api.repository.AccommodationRepository;
-import com.treetoplodge.treetoplodge_api.util.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static com.treetoplodge.treetoplodge_api.util.Generator.generateUniqueAccommodationId;
 
 @Slf4j
 @Service
@@ -25,7 +23,6 @@ import static com.treetoplodge.treetoplodge_api.util.Generator.generateUniqueAcc
 public class AccommodationServiceImpl implements AccommodationService {
     private final AccommodationRepository repository;
     private final FileUploadServiceImpl fileUploadService;
-    private final Validator validator;
 
     @Override
     public Page<Accommodation> getAll(Pageable pageable) {
@@ -48,10 +45,9 @@ public class AccommodationServiceImpl implements AccommodationService {
     @Transactional
     @Override
     public Accommodation create(Accommodation accommodation) throws AppException {
-        validator.validateAccommodationId(accommodation.getAccommodationId());
-        if(accommodation.getAccommodationId().isEmpty() || accommodation.getAccommodationId() == ""){
-            accommodation.setAccommodationId(generateUniqueAccommodationId());
-        }
+        // if(accommodation.getAccommodationId().isEmpty() || accommodation.getAccommodationId() == ""){
+        //     accommodation.setAccommodationId(generateUniqueAccommodationId());
+        // }
         accommodation.setCreatedAt(LocalDateTime.now());
         return repository.save(accommodation);
     }
